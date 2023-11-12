@@ -1,5 +1,15 @@
+import models from '../models/productos.model.js'
 
-const obtenerProductos =  (req, res) => {
+const obtenerProductos =  async (req, res) => {
+    let id = req.params.id
+
+    if ( id ) {
+
+    } else {
+        const productos = await models.leerProductos()
+        return res.status(200).json(productos)
+    }
+
     res.send('GET ALL / ONE (READ)')
 }
 
