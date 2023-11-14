@@ -1,9 +1,12 @@
 import express from 'express'
-import 'dotenv/config'
+import mongoose from 'mongoose'
+import path from 'node:path'
 import cors from 'cors'
+import 'dotenv/config'
 
 import routerProductos from './routers/productos.router.js'
-import mongoose from 'mongoose'
+import routerUpload from './routers/upload.router.js'
+
 
 // ! Configuraciones
 const app = express()
@@ -25,12 +28,14 @@ const conectar = async () => {
 conectar()
 
 // ! Middlewares
+app.use(express.static(path.join('public')))
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(cors(corsConfig))
 
 // ! Rutas
 app.use('/api/productos', routerProductos)
+app.use('/api/upload', routerUpload)
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
