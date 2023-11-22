@@ -17,10 +17,24 @@ const productoCreateValidator = [
     productoMiddleware  
 ]
 
-// productoUpdateValidator
-// productoReadOneValidator
+const productoUpdateValidator = [
+    check('id')
+        .isMongoId()
+        .withMessage('Envio info incorrecta para actualizar el producto'),
+    productoMiddleware
+]
+
+const productoReadOneValidator = [
+    check('id')
+        .optional()
+        .isMongoId()
+        .withMessage('El identificador es de formato incorrecto'), 
+    productoMiddleware
+]
 
 export default {
     productoDeleteValidator,
-    productoCreateValidator
+    productoCreateValidator, 
+    productoUpdateValidator,
+    productoReadOneValidator
 }

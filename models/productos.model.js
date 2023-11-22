@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import handleMongoId from '../utils/handleMongoId.js'
 
 // ! CREAMOS EL ESQUEMA 
 
@@ -23,7 +24,7 @@ const ProductosModel = mongoose.model('productos', productosSchema)
 const leerProducto = async (id) => {
     try {
         const producto = await ProductosModel.findById(id)
-        return producto
+        return handleMongoId(producto)
     } catch (error) {
         console.log('[leerProducto]: No se pudo leer el producto con el id', error)
         
@@ -35,8 +36,8 @@ const leerProducto = async (id) => {
 // Obtener todos los productos de la base
 const leerProductos = async () => {
     try {
-        const productos = await ProductosModel.find({})
-        return productos
+        const productos = await ProductosModel.find({}) 
+        return handleMongoId(productos)
     } catch (error) {
         console.log('[leerProductos]: Algo no salió bien...', error)
     }
@@ -47,8 +48,8 @@ const guardarProducto = async (productoNuevo) => {
     
     try {
      const productoAlmacenado = new ProductosModel(productoNuevo)
-     const producto = await productoAlmacenado.save()
-     return productoAlmacenado
+     await productoAlmacenado.save()
+     return handleMongoId(productoAlmacenado) 
     } catch (error) {
      console.log('ERROR (Guardar Productos), no se pudo guardar en la DB', error)    
     }
@@ -59,8 +60,8 @@ const guardarProducto = async (productoNuevo) => {
 const modificarProducto = async (id, productoAEditar) => {
 
     try {
-        const productoModificado = await ProductosModel.findByIdAndUpdate(id, productoAEditar)
-        return productoModificado
+        const productoModificado = await ProductosModel.findByIdAndUpdate(id, productoAEditar, { new: true })
+        return handleMongoId(productoModificado)
     } catch (error) {
         console.log('ERROR[modificarProducto]: No se pudo actualizar el producto', error);
     }
@@ -72,7 +73,7 @@ const eliminarProducto = async (id) => {
 
     try {
         const productoBorrado = await ProductosModel.findByIdAndDelete(id)
-        return productoBorrado
+        return handleMongoId(productoBorrado)
     } catch (error) {
         console.log('ERROR al eliminar la película en la DB', error)      
     }
