@@ -2,7 +2,7 @@ db.productos.insertMany(
     [
          {
                 "nombre": "IPhone 11 Pro Max",
-                "foto": "img/apple-iphone-11-pro-max.jpg",
+                "foto": "http:localhost:8080/uploads/apple-iphone-11-pro-max.jpg",
                 "detalles": "Lorem ipsum dolor sit, amet consectetur adipisicing.",
                 "precio": 250.5,
                 "stock": "4",
